@@ -1,35 +1,48 @@
 import streamlit as st
 
 # Configuración de la página
-st.set_page_config(page_title="Mi App Educativa", page_icon="🚀")
+st.set_page_config(page_title="Editor Mágico para Clase", page_icon="📝")
 
-st.title("🚀 Mi Primera App Interactiva")
-st.write("¡Hola! Esta app demuestra cómo Python puede transformar datos en segundos.")
+st.title("📝 Transformador de Texto Interactivo")
+st.write("Cualquier cosa que escribas aquí pasará por un filtro de Python.")
 
 # --- ENTRADA DE USUARIO ---
-st.subheader("1. Escribe algo")
-texto_usuario = st.text_input("Introduce un mensaje:", "Streamlit es genial")
+st.subheader("1. Escribe tu mensaje")
+texto_usuario = st.text_input("Mensaje original:", "Hola Mundo")
 
-# --- LÓGICA SENCILLA ---
-opcion = st.selectbox("¿Qué quieres hacer?", ["Convertir a MAYÚSCULAS", "Invertir el texto", "Contar letras"])
+# --- MENÚ DE OPCIONES ---
+opcion = st.selectbox(
+    "¿Qué transformación quieres aplicar?", 
+    ["Convertir a MAYÚSCULAS", "Invertir el texto", "Contar letras"]
+)
 
+# --- LÓGICA DE TRANSFORMACIÓN ---
+# Aquí guardaremos el resultado y el fragmento de código que vamos a explicar
 if opcion == "Convertir a MAYÚSCULAS":
     resultado = texto_usuario.upper()
+    explicacion_codigo = f'resultado = "{texto_usuario}".upper()'
+    
 elif opcion == "Invertir el texto":
     resultado = texto_usuario[::-1]
-else:
+    explicacion_codigo = f'resultado = "{texto_usuario}"[::-1]'
+    
+else: # Contar letras
     resultado = len(texto_usuario)
+    explicacion_codigo = f'resultado = len("{texto_usuario}")'
 
-# --- RESULTADO ---
+# --- RESULTADO VISUAL ---
 st.subheader("2. Resultado")
-st.success(f"El resultado es: **{resultado}**")
+st.success(f"El resultado final es: **{resultado}**")
 
-# --- EXPLICACIÓN DEL CÓDIGO ---
+# --- EXPLICACIÓN DEL CÓDIGO (Dinámica) ---
 st.divider()
-st.subheader("💡 ¿Cómo funciona?")
-st.write("Aquí abajo tienes el código que está ejecutando esta página:")
+st.subheader("💡 ¿Cómo lo hace Python?")
+st.write(f"Como has seleccionado **{opcion}**, la línea de código que se está ejecutando internamente es:")
+
+# Mostramos el bloque de código específico según la opción
 st.code(f"""
-# Así de fácil se programa esto:
-if opcion == "Invertir el texto":
-    resultado = "{texto_usuario}"[::-1]
+# Código de Python:
+{explicacion_codigo}
 """, language="python")
+
+st.info("💡 Fíjate cómo cambian las comillas y los métodos según lo que eliges arriba.")

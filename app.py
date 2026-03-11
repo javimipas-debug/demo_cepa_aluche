@@ -39,7 +39,7 @@ if st.button("✨ ¡Ejecutar Magia!"):
             st.subheader("💡 El código detrás de la IA")
             st.code(f"""
 # 1. Configuramos la IA
-genai.configure(api_key="TU_CLAVE")
+genai.configure(api_key=api_key)
 
 # 2. Elegimos el modelo
 model = genai.GenerativeModel('gemini-2.5-flash')

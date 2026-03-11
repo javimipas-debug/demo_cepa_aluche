@@ -1,48 +1,54 @@
 import streamlit as st
+import google.generativeai as genai
 
-# Configuración de la página
-st.set_page_config(page_title="Editor Mágico para Clase", page_icon="📝")
+st.set_page_config(page_title="Mi App con IA", page_icon="🤖")
 
-st.title("📝 Transformador de Texto Interactivo")
-st.write("Cualquier cosa que escribas aquí pasará por un filtro de Python.")
+# --- CONFIGURACIÓN DE LA IA ---
+# En un entorno real usaríamos st.secrets, pero para clase pediremos la clave:
+api_key = 'AIzaSyAwGpfkLZeZXK22QHYDPJ3Bd8rH0Jaqqfc'
 
-# --- ENTRADA DE USUARIO ---
-st.subheader("1. Escribe tu mensaje")
-texto_usuario = st.text_input("Mensaje original:", "Hola Mundo")
+if api_key:
+    genai.configure(api_key=api_key)
+    model = genai.GenerativeModel('gemini-2.5-flash') # El modelo más rápido y gratuito
 
-# --- MENÚ DE OPCIONES ---
-opcion = st.selectbox(
-    "¿Qué transformación quieres aplicar?", 
-    ["Convertir a MAYÚSCULAS", "Invertir el texto", "Contar letras"]
-)
+st.title("🤖 Transformador con Inteligencia Artificial")
 
-# --- LÓGICA DE TRANSFORMACIÓN ---
-# Aquí guardaremos el resultado y el fragmento de código que vamos a explicar
-if opcion == "Convertir a MAYÚSCULAS":
-    resultado = texto_usuario.upper()
-    explicacion_codigo = f'resultado = "{texto_usuario}".upper()'
-    
-elif opcion == "Invertir el texto":
-    resultado = texto_usuario[::-1]
-    explicacion_codigo = f'resultado = "{texto_usuario}"[::-1]'
-    
-else: # Contar letras
-    resultado = len(texto_usuario)
-    explicacion_codigo = f'resultado = len("{texto_usuario}")'
+# --- ENTRADA ---
+texto_usuario = st.text_input("Escribe una frase para la IA:", "Inventa un chiste sobre programadores")
 
-# --- RESULTADO VISUAL ---
-st.subheader("2. Resultado")
-st.success(f"El resultado final es: **{resultado}**")
+opcion = st.selectbox("¿Qué debe hacer la IA?", 
+                     ["Resumir", "Traducir a Inglés", "Convertir en Poema", "Explicar como a un niño"])
 
-# --- EXPLICACIÓN DEL CÓDIGO (Dinámica) ---
-st.divider()
-st.subheader("💡 ¿Cómo lo hace Python?")
-st.write(f"Como has seleccionado **{opcion}**, la línea de código que se está ejecutando internamente es:")
+if st.button("✨ ¡Ejecutar Magia!"):
+    if not api_key:
+        st.error("¡Necesitas pegar la API Key en la barra lateral!")
+    else:
+        with st.spinner("La IA está pensando..."):
+            # Creamos el "Prompt" (la instrucción)
+            prompt = f"{opcion}: {texto_usuario}"
+            
+            # Llamada a la IA
+            response = model.generate_content(prompt)
+            resultado = response.text
+            
+            st.success("### Resultado de la IA:")
+            st.write(resultado)
 
-# Mostramos el bloque de código específico según la opción
-st.code(f"""
-# Código de Python:
-{explicacion_codigo}
-""", language="python")
+            # --- EXPLICACIÓN DEL CÓDIGO ---
+            st.divider()
+            st.subheader("💡 El código detrás de la IA")
+            st.code(f"""
+# 1. Configuramos la IA
+genai.configure(api_key="TU_CLAVE")
 
-st.info("💡 Fíjate cómo cambian las comillas y los métodos según lo que eliges arriba.")
+# 2. Elegimos el modelo
+model = genai.GenerativeModel('gemini-2.5-flash')
+
+# 3. Enviamos tu instrucción (Prompt)
+prompt = "{opcion}: {texto_usuario}"
+response = model.generate_content(prompt)
+
+print(response.text)
+            """, language="python")
+else:
+    st.info("Escribe algo y pulsa el botón para ver la magia.")

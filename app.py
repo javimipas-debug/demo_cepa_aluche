@@ -9,7 +9,7 @@ api_key = 'AIzaSyAwGpfkLZeZXK22QHYDPJ3Bd8rH0Jaqqfc'
 
 if api_key:
     genai.configure(api_key=api_key)
-    model = genai.GenerativeModel('gemini-1.5-flash-latest') # He puesto 1.5 que es la versión estable actual
+    model = genai.GenerativeModel('gemini-2.5-flash') # He puesto 1.5 que es la versión estable actual
 
 st.title("🧠 Laboratorio de Prompts")
 st.write("Aquí aprenderemos que **no es lo que pides, sino cómo lo pides**.")

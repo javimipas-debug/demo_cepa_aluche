@@ -5,7 +5,7 @@ st.set_page_config(page_title="Aprendiendo Prompts con IA", page_icon="🧠")
 
 # --- CONFIGURACIÓN DE LA IA ---
 # NOTA: Cuidado al subir esto a GitHub público, ¡podrían desactivarte la clave!
-api_key = 'AIzaSyAwGpfkLZeZXK22QHYDPJ3Bd8rH0Jaqqfc'
+api_key = 'AIzaSyAWN6nW9565j9F1wNr8Vg_2XtV1URo1vS8'
 
 if api_key:
     genai.configure(api_key=api_key)

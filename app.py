@@ -87,4 +87,4 @@ response = model.generate_content(prompt_completo)
 '''
 
 with st.expander("CLAVES DEL CODIGO"):
-    st.write(code_completo)
+    st.code(code_completo)
